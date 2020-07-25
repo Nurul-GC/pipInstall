@@ -1,4 +1,4 @@
-﻿# ******************************************************************************
+# ******************************************************************************
 #  Direitos Autorais (c) 2019-2020 Nurul GC                                    *
 #                                                                              *
 #  Jovem Programador                                                           *
@@ -31,7 +31,7 @@ def pt():
         
         pl2 = open('list/pipList.txt', 'w+')
         for l in pl_:
-            pip = sub('[ ]+', '>=', l)
+            pip = sub('[ ]+', '~=', l)
             pl2.write(str(pip))
     
     pl2.close()
@@ -68,7 +68,7 @@ def en():
         
         pl2 = open('list/pipList.txt', 'w+')
         for l in pl_:
-            pip = sub('[ ]+', '>=', l)
+            pip = sub('[ ]+', '~=', l)
             pl2.write(str(pip))
     
     pl2.close()
