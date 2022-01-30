@@ -16,7 +16,7 @@ class PiGUI:
     def __init__(self):
         self.ferramentas = QWidget()
         self.ferramentas.setStyleSheet(theme)
-        self.ferramentas.setWindowTitle('GC - PipInstall.py')
+        self.ferramentas.setWindowTitle('GC - PipInstall')
 
         self.principal()
 
@@ -58,7 +58,15 @@ class PiGUI:
             with open("list/packages.txt", "r+") as packfile:
                 logbox.setText(packfile.read())
 
+        menu = QMenuBar()
+        _help = menu.addMenu('Help')
+        instr = _help.addAction('Instructions')
+        _help.addSeparator()
+        sair = _help.addAction('Exit')
+        _sobre = menu.addAction('About')
+
         mainlayout = QFormLayout()
+        mainlayout.setMenuBar(menu)
 
         label = QLabel(
             '<h1>GC - PipInstall.py</h1>'
