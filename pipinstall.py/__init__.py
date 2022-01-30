@@ -14,6 +14,7 @@ class PI:
         self.gc = QApplication(argv)
         # *****************************************
         self.ferramentas = QWidget()
+        self.ferramentas.setStyleSheet(theme)
         self.ferramentas.setWindowTitle('GC - PipInstall.py')
         self.ferramentas.show()
 
@@ -22,15 +23,28 @@ class PI:
 
     def principal(self):
         def genlistaction():
-            logbox.clear()
-            logbox.setText("Generating the list with all packages installed in your virtual environment..")
-            sleep(0.2)
-            logbox.setText("This may take a few minutes, please wait..")
-            logbox.setText(genlist())
+            logbox.setText("Generating the list with all packages installed in your virtual environment..\n"
+                           "This may take a few minutes, please wait..")
+            QMessageBox.warning(self.ferramentas, "Generate Packages List", f"{genlist()}")
 
         def updpackagesaction():
             logbox.clear()
             logbox.setText(updpackages())
+
+        def inspackaction():
+            if packname.text() == "" or packname.text().isspace():
+                QMessageBox.warning(self.ferramentas, "Install New Package", "Please inform the package's name before to proceed!")
+            else:
+                logbox.clear()
+                logbox.setText(installnew(_package_name=packname.text()))
+
+        def resetaction():
+            logbox.clear()
+
+        def viewpackaction():
+            logbox.clear()
+            with open("list/packages.txt", "r+") as packfile:
+                logbox.setText(packfile.read())
 
         mainlayout = QFormLayout()
 
@@ -42,34 +56,41 @@ class PI:
         label.setAlignment(Qt.AlignmentFlag.AlignRight)
         mainlayout.addRow(label)
 
-        btnlayout = QHBoxLayout()
         genlistbtn = QPushButton('Generate Packages List')
+        genlistbtn.setFixedWidth(300)
         genlistbtn.clicked.connect(genlistaction)
-        btnlayout.addWidget(genlistbtn)
         # *****************************************
         updpackbtn = QPushButton('Update Packages')
         updpackbtn.clicked.connect(updpackagesaction)
-        btnlayout.addWidget(updpackbtn)
+        mainlayout.addRow(genlistbtn, updpackbtn)
         # *****************************************
+        packname = QLineEdit()
+        packname.setFixedWidth(300)
+        packname.setClearButtonEnabled(True)
+        packname.setPlaceholderText('Type here the package name..')
         inspackbtn = QPushButton('Install New Package')
-        btnlayout.addWidget(inspackbtn)
-        mainlayout.addRow(btnlayout)
+        inspackbtn.clicked.connect(inspackaction)
+        mainlayout.addRow(packname, inspackbtn)
+        # *****************************************
+        mainlayout.addRow(QLabel('<hr>'))
 
         logbox = QTextEdit()
+        logbox.setPlaceholderText("Log Text Box..")
         logbox.setReadOnly(True)
-        logbox.setStyleSheet('background-color:black;'
-                             'color:white;')
         mainlayout.addRow(logbox)
 
         delogbox = QPushButton('Reset Log')
+        delogbox.clicked.connect(resetaction)
         viewpackages = QPushButton('View Packages List')
         if not path.exists('list/packages.txt'):
             viewpackages.setDisabled(True)
+        viewpackages.clicked.connect(viewpackaction)
         mainlayout.addRow(delogbox, viewpackages)
 
         self.ferramentas.setLayout(mainlayout)
 
 
 if __name__ == '__main__':
+    theme = open("themes/pi.qss").read().strip()
     app = PI()
     app.gc.exec()
