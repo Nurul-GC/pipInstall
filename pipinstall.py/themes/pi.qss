@@ -1,0 +1,12 @@
+QWidget, QDialog{
+ background-color: gray;
+ color: black;
+}
+QLineEdit{
+  background-color: gray;
+  color: black;
+}
+QTextEdit{
+  background-color: black;
+  color: gray;
+}
