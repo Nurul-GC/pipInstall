@@ -1,0 +1,18 @@
+QWidget, QDialog{
+  font-family: "Kranky";
+  background-color: #DDD;
+  color: black;
+}
+QLineEdit{
+  background-color: #AAA;
+  color: black;
+}
+QTextEdit{
+  background-color: black;
+  color: #AAA;
+}
+QPushButton:hover{
+  font-weight: bold;
+  background-color: black;
+  color: #DDD;
+}
