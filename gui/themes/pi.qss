@@ -13,6 +13,16 @@ QTextEdit{
 }
 QPushButton:hover{
   font-weight: bold;
-  background-color: black;
-  color: #DDD;
+  background-color: #AAA;
+  color: black;
+}
+QMenuBar::item:selected{
+  font-weight: bold;
+  background-color: #AAA;
+  color: black;
+}
+QMenu::item:selected{
+  font-weight: bold;
+  background-color: #AAA;
+  color: black;
 }
