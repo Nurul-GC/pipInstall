@@ -1,5 +1,6 @@
 from os import path
 from time import sleep
+import webbrowser
 
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -8,23 +9,34 @@ from sys import argv, exit
 from requests import request
 from core import genlist, installnew, updpackages
 
+theme = open("themes/pi.qss").read().strip()
 
-class PI:
+
+class PiGUI:
     def __init__(self):
-        self.gc = QApplication(argv)
-        # *****************************************
         self.ferramentas = QWidget()
         self.ferramentas.setStyleSheet(theme)
         self.ferramentas.setWindowTitle('GC - PipInstall.py')
-        self.ferramentas.show()
 
-        # hasconnection = request('GET', 'https://pypi.org').status_code
         self.principal()
 
+    # **********MENU**********
+    def _sair(self):
+        return exit(0)
+
+    def _instr(self):
+        pass
+
+    def _sobre(self):
+        pass
+
+    # **********JANELAS**********
     def principal(self):
         def genlistaction():
-            logbox.setText("Generating the list with all packages installed in your virtual environment..\n"
-                           "This may take a few minutes, please wait..")
+            logbox.setText(
+                "Generating the list with all packages installed in your virtual environment..\n"
+                "This may take a few minutes, please wait.."
+                )
             QMessageBox.warning(self.ferramentas, "Generate Packages List", f"{genlist()}")
 
         def updpackagesaction():
@@ -48,10 +60,12 @@ class PI:
 
         mainlayout = QFormLayout()
 
-        label = QLabel('<h1>GC - PipInstall.py</h1>'
-                       '<hr>'
-                       '<small>python 3rd-party packages easily/auto updater!</small>'
-                       '<br>')
+        label = QLabel(
+            '<h1>GC - PipInstall.py</h1>'
+            '<hr>'
+            '<small>python 3rd-party packages easily/auto updater!</small>'
+            '<br>'
+            )
         label.setStyleSheet('margin-bottom:10px;')
         label.setAlignment(Qt.AlignmentFlag.AlignRight)
         mainlayout.addRow(label)
@@ -87,10 +101,14 @@ class PI:
         viewpackages.clicked.connect(viewpackaction)
         mainlayout.addRow(delogbox, viewpackages)
 
+        # *****************************************
+        mainlayout.addRow(QLabel('<hr>'))
+
+        link = lambda: webbrowser.open('https://artesgc.home.blog')
+        labelTrade = QLabel('<b><a href="#" style="text-decoration:none;">&trade;ArtesGC Inc</a></b>')
+        labelTrade.setAlignment(Qt.AlignmentFlag.AlignRight)
+        labelTrade.linkActivated.connect(link)
+        labelTrade.setToolTip('Open ArtesGC oficial website!')
+        mainlayout.addWidget(labelTrade)
+
         self.ferramentas.setLayout(mainlayout)
-
-
-if __name__ == '__main__':
-    theme = open("themes/pi.qss").read().strip()
-    app = PI()
-    app.gc.exec()
