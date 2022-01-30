@@ -5,32 +5,31 @@ from time import sleep
 
 
 def genlist():
-    makedirs("list", exist_ok=True)
-    lista = getoutput("pip list")
-    sleep(0.2)
-
-    # *****************************************
-    with open("list/packages.txt", "w+") as pl:
-        pl.write(lista)
-        pl.close()
-        sleep(0.2)
-
-    # *****************************************
-    with open("list/packages.txt", "r+") as pl:
-        pl_ = pl.readlines()
-        for _ in range(2):
-            pl_.remove(pl_[0])
-        pl.close()
-        sleep(0.2)
+    try:
+        makedirs("list", exist_ok=True)
+        lista = getoutput("pip list")
 
         # *****************************************
-        pl2 = open("list/packages.txt", "w+")
-        for p in pl_:
-            package = sub("[ ]+", ">=", p)
-            pl2.write(str(package))
-        pl2.close()
-        sleep(0.2)
-    return "Done, list generated successfuly!"
+        with open("list/packages.txt", "w+") as pl:
+            pl.write(lista)
+            pl.close()
+
+        # *****************************************
+        with open("list/packages.txt", "r+") as pl:
+            pl_ = pl.readlines()
+            for _ in range(2):
+                pl_.remove(pl_[0])
+            pl.close()
+
+            # *****************************************
+            pl2 = open("list/packages.txt", "w+")
+            for p in pl_:
+                package = sub("[ ]+", ">=", p)
+                pl2.write(str(package))
+            pl2.close()
+    except Exception as error:
+        return error
+    return "Done, Packages list generated successfully!"
 
 
 def updpackages():
