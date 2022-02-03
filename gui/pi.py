@@ -108,7 +108,6 @@ class PiGUI:
             viewpackages.setDisabled(True)
         viewpackages.clicked.connect(viewpackaction)
         mainlayout.addRow(delogbox, viewpackages)
-
         # *****************************************
         mainlayout.addRow(QLabel('<hr>'))
 
